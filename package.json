@@ -1,0 +1,25 @@
+{
+  "name": "captchaalternative",
+  "version": "1.0.0",
+  "description": "Captcha alternative for Visually Alternative",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.6",
+    "multer": "^1.4.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ankiiitraj/captchaAlternative.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ankiiitraj/captchaAlternative/issues"
+  },
+  "homepage": "https://github.com/ankiiitraj/captchaAlternative#readme"
+}
