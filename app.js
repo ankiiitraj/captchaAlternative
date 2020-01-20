@@ -3,6 +3,8 @@ var express = require('express');
 var app = express();
 var multer  = require('multer');
 
+
+
 const fileUpload = require('express-fileupload');
 
 var storage = multer.diskStorage({
@@ -40,7 +42,43 @@ app.post('/upload', upload.single('audio'), function (req, res) {
     if (err)
       return res.status(500).send(err);
 
-    res.send('File uploaded!');
+    // res.send('File uploaded!');
+    
+
+
+    // python
+    const path = require('path')
+const {spawn} = require('child_process')
+/**
+   * Run python myscript, pass in `-u` to not buffer console output
+   * @return {ChildProcess}
+*/
+function runScript(){
+   return spawn('python', [
+      "-u",
+      path.join(__dirname, 'machine_and_human.py'),
+     "--foo", "some value for foo",
+   ]);
+}
+const subprocess = runScript()
+// print output of script
+subprocess.stdout.on('data', (data) => {
+   console.log(`data:${data}`);
+   let ans = data;
+
+   res.send(data.toString());
+
+   console.log(ans.toString());
+});
+subprocess.stderr.on('data', (data) => {
+   console.log(`error:${data}`);
+});
+subprocess.stderr.on('close', () => {
+   console.log("Closed");
+});
+
+
+
   });
 });
 app.get('/', function(req, res){
@@ -51,4 +89,9 @@ app.use(function (err, req, res, next) {
   else next(err);
 });
 
+
+
+
 app.listen(5500);
+
+

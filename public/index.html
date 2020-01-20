@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Geek-A-Thon
+        </title>
+    </head>
+    <body style="background-color: #1b1b1b;">
+      <!-- <audio id="myAudio" src="mywav.wav" controls>
+        <source src="mywav.wav" type="audio/wav">
+        <source src="horse.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio> -->
+      <center><h1 style="color: white;">Captcha Alternative for Visually Impaired</h1></center>
+      <div style="text-align: center; position: absolute; top: 40vh; left: 40vw;">
+        <div style="margin: 20px;">
+          <button id="output"  style="background-color: lime; padding: 10px; width: max-content; border-radius: 10px; font-size: 3rem;">
+              Play Captcha
+          </button>
+        </div>
+        <div style="margin: 20px;">
+          <button id=record style="background-color: lime; padding: 10px; width: max-content; border-radius: 10px; font-size: 3rem;">
+            Repeat
+          </button>
+        </div>
+        <!-- <div style="margin: 20px; display: none;">
+          <audio id=recordedAudio></audio>
+        </div> -->
+      <!-- </div> -->
+          <!-- <button id=stopRecord disabled>Stop</button> -->
+         
+      <!-- </div> -->
+        <script>
+            
+            navigator.mediaDevices.getUserMedia({audio:true})
+              .then(stream => {handlerFunction(stream)})
+      
+      
+                    function handlerFunction(stream) {
+                    rec = new MediaRecorder(stream);
+                    rec.ondataavailable = e => {
+                      audioChunks.push(e.data);
+                      if (rec.state == "inactive"){
+                        let blob = new Blob(audioChunks,{type:'audio/mpeg-3'});
+                        // recordedAudio.src = URL.createObjectURL(blob);
+                        // recordedAudio.controls=true;
+                        // recordedAudio.autoplay=true;
+                        sendData(blob)
+                      }
+                    }
+                  }
+                        function sendData(data) {
+
+                          function uploadFile(file){
+                            var url = window.location.href+'upload';
+                            var xhr = new XMLHttpRequest();
+                            var fd = new FormData();
+                            xhr.open("POST", url, true);
+                            xhr.onreadystatechange = function() {
+                              if (xhr.readyState == 4 && xhr.status == 200) {
+                                  // Every thing ok, file uploaded
+                                  console.log(xhr.responseText); // handle response.
+                              }
+                            };
+                            fd.append("upload_file", file);
+                            xhr.send(fd);
+                            }
+                      uploadFile(data);
+                    }
+                          
+                          
+                record.onclick = e => {
+                  console.log('I was clicked')
+                  record.disabled = true;
+                //   record.style.backgroundColor = "blue"
+                //   stopRecord.disabled=false;
+                  audioChunks = [];
+                  rec.start();  
+                  setTimeout(stop, 5000);
+                }
+                function stop(){
+                    console.log("Stopped");
+                    rec.stop();
+                    
+                }
+                // stopRecord.onclick = e => {
+                //   console.log("I was clicked")
+                //   record.disabled = false;
+                //   stop.disabled=true;
+                //   record.style.backgroundColor = "red"
+                //   rec.stop();
+                // }
+
+                output.onclick = e => {
+                    var audio = new Audio(window.location.href+'mywav.wav');
+                    audio.play();
+                }
+                // function playAudio(){
+                //   var audio = document.getElementById("myAudio");
+                //   audio.play();
+                // }
+         </script>
+    </body>
+</html>
